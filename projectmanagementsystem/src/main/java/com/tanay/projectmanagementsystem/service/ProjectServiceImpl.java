@@ -72,7 +72,7 @@ public class ProjectServiceImpl implements ProjectService
     {
         Optional<Project> opt = projectRepository.findById(projectId);
         if(opt.isEmpty())
-            throw new Exception("Project not found")
+            throw new Exception("Project not found");
         return null;
     }
 
