@@ -31,13 +31,13 @@ public class ProjectController
     private InvitationService invitationService;
 
     @GetMapping
-    public ResponseEntity<List<Project>> getProjects(@RequestParam(required = false) String cateogry,
+    public ResponseEntity<List<Project>> getProjects(@RequestParam(required = false) String category,
                                                      @RequestParam(required = false) String tag,
                                                      @RequestHeader(JwtConstant.JWT_HEADER) String jwt)
             throws Exception
     {
         User user = userService.findUserProfileByJwt(jwt);
-        List<Project> projects = projectService.getProjectByTeam(user, cateogry, tag);
+        List<Project> projects = projectService.getProjectByTeam(user, category, tag);
 
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
@@ -47,7 +47,6 @@ public class ProjectController
                                                   @RequestHeader(JwtConstant.JWT_HEADER) String jwt)
             throws Exception
     {
-        User user = userService.findUserProfileByJwt(jwt);
         Project project = projectService.getProjectById(projectId);
 
         return new ResponseEntity<>(project, HttpStatus.OK);
@@ -70,7 +69,6 @@ public class ProjectController
                                                  @RequestHeader(JwtConstant.JWT_HEADER) String jwt)
             throws Exception
     {
-        User user = userService.findUserProfileByJwt(jwt);
         Project updatedProject = projectService.updateProject(project, projectId);
 
         return new ResponseEntity<>(updatedProject, HttpStatus.OK);
@@ -88,7 +86,7 @@ public class ProjectController
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<List<Project>> searchProjects(@RequestParam(required = false) String keyword,
                                                      @RequestHeader(JwtConstant.JWT_HEADER) String jwt)
             throws Exception

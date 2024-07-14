@@ -21,8 +21,6 @@ public class ProjectServiceImpl implements ProjectService
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private ChatService chatService;
@@ -73,7 +71,8 @@ public class ProjectServiceImpl implements ProjectService
         Optional<Project> opt = projectRepository.findById(projectId);
         if(opt.isEmpty())
             throw new Exception("Project not found");
-        return null;
+
+        return opt.get();
     }
 
     @Override
