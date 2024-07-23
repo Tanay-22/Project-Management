@@ -7,13 +7,30 @@ import {PlusIcon} from "@radix-ui/react-icons";
 import InviteUserForm from "@/pages/projectDetails/InviteUserForm.jsx";
 import IssueList from "@/pages/projectDetails/IssueList.jsx";
 import ChatBox from "@/pages/projectDetails/ChatBox.jsx";
+import {useEffect} from "react";
+import {fetchProjectById} from "@/redux/Project/Action.js";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
 
 const ProjectDetails = () =>
 {
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    const projectDetails = useSelector(store => store.project.projectDetails);
+
+    // console.log("projectDetails", projectDetails);
+
     const handleProjectInvitaion = () =>
     {
 
-    }
+    };
+
+    useEffect(() =>
+    {
+        if(id)
+            dispatch(fetchProjectById({ projectId: parseInt(id) }));
+    }, [id]);
+
     return (
         <>
             <div className="mt-5 lg:px-10">
@@ -21,24 +38,22 @@ const ProjectDetails = () =>
                     <ScrollArea className="h-screen lg:w-[69%] pr-2">
                         <div className="text-gray-400 pb-10 w-full">
                             <h1 className="text-lg font-semibold pb-5">
-                                Create Ecommerce Website
+                                {projectDetails?.name}
                             </h1>
                             <div className="space-y-5 pb-10 text-sm">
                                 <p className="w-full md:max-w-lg lg:max-w-xl">
-                                    mazim ridiculus platea eos verterem maiorum scelerisque habemus tortor delenit
-                                    pertinax
-                                    vim solet vituperata homero euismod vehicula invidunt efficiantur pro
+                                    {projectDetails?.description}
                                 </p>
                                 <div className="flex">
                                     <p className="w-36">Project Lead :</p>
-                                    <p>DogRaj</p>
+                                    <p>{projectDetails?.owner.fullName}</p>
                                 </div>
                                 <div className="flex">
                                     <p className="w-36">Members :</p>
                                     <div className="flex items-center gap-2">
-                                        {[1, 1, 1, 1].map((item) => (
-                                            <Avatar key={item} className="cursor-pointer">
-                                                <AvatarFallback>D</AvatarFallback>
+                                        {projectDetails?.team.map((member) => (
+                                            <Avatar key={member.id} className="cursor-pointer">
+                                                <AvatarFallback>{member.fullName[0]}</AvatarFallback>
                                             </Avatar>
                                         ))}
                                     </div>
@@ -61,11 +76,11 @@ const ProjectDetails = () =>
                                 </div>
                                 <div className="flex">
                                     <p className="w-36">Category :</p>
-                                    <p>FullStack</p>
+                                    <p>{projectDetails?.category}</p>
                                 </div>
                                 <div className="flex">
                                     <p className="w-36">Project Lead:</p>
-                                    <Badge>DogRaj</Badge>
+                                    <Badge>{projectDetails?.owner.fullName}</Badge>
                                 </div>
                             </div>
 

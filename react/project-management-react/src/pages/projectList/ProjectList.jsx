@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Card, CardContent} from "@/components/ui/card.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {MagnifyingGlassIcon, MixerHorizontalIcon} from "@radix-ui/react-icons";
@@ -7,6 +7,8 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group.jsx";
 import {Label} from "@/components/ui/label.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import ProjectCard from "@/pages/project/ProjectCard.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchProjects, searchProjects} from "@/redux/Project/Action.js";
 
 export const tags = ["reactjs", "nextjs", "spring boot", "mysql", "mongodb", "angular", "python",
     "flask", "django"];
@@ -14,14 +16,36 @@ export const tags = ["reactjs", "nextjs", "spring boot", "mysql", "mongodb", "an
 const ProjectList = () =>
 {
     const [keyword, setKeyword] = useState("");
-    const handleFilerChange = (section, value) =>
+    const projects = useSelector(store => store.project);
+    const dispatch = useDispatch();
+
+    const handleFilerCategory = (value) =>
     {
-        console.log("value", value, section);
+        if(value === "all")
+            dispatch(fetchProjects({}));
+        else
+            dispatch(fetchProjects({ category : value }));
+        console.log("category ->", value);
     };
+
+    const handleFilerTags = (value) =>
+    {
+        if(value === "all")
+            dispatch(fetchProjects({}));
+        else
+            dispatch(fetchProjects({ tag : value }));
+        console.log("tags ->", value);
+    };
+
     const handleSearchChange = (e) =>
     {
         setKeyword(e.target.value);
-    }
+        dispatch(searchProjects(e.target.value));
+    };
+
+
+    console.log(projects);
+
     return (
         <>
             <div className="relative px-5 lg:px-0 lg:flex gap-5 justify-center py-5">
@@ -41,7 +65,7 @@ const ProjectList = () =>
                                         <RadioGroup
                                             className="space-y-3 pt-5"
                                             defaultValue="all"
-                                            onValueChange={(value) => handleFilerChange("category", value)}
+                                            onValueChange={(value) => handleFilerCategory(value)}
                                         >
                                             <div className="flex items-center gap-2">
                                                 <RadioGroupItem value="all" id="r1"/>
@@ -72,7 +96,7 @@ const ProjectList = () =>
                                         <RadioGroup
                                             className="space-y-3 pt-5"
                                             defaultValue="all"
-                                            onValueChange={(value) => handleFilerChange("tags", value)}
+                                            onValueChange={(value) => handleFilerTags(value)}
                                         >
                                             {tags.map((item)=>
                                                 <div key={item} className="flex items-center gap-2">
@@ -103,9 +127,10 @@ const ProjectList = () =>
                         <div className="space-y-5 min-h-[74vh]">
                             {
                                 // eslint-disable-next-line react/jsx-key
-                                keyword ? [1,1,1].map(() => <ProjectCard />) :
+                                keyword ? projects.searchProjects.map((item, index) =>
+                                        <ProjectCard item={item} key={item.id * index}/>) :
                                     // eslint-disable-next-line react/jsx-key
-                                    [1,1,1,1].map(() => <ProjectCard />)
+                                    projects.projects.map((item) => <ProjectCard item={item} key={item.id}/>)
                             }
                         </div>
                     </div>

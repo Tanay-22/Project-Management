@@ -35,7 +35,7 @@ public class SubscriptionController
 
     @PatchMapping("/upgrade")
     public ResponseEntity<Subscription> upgradeSubscription(@RequestHeader(JwtConstant.JWT_HEADER) String jwt,
-                                                            PlanType planType)
+                                                            @RequestParam PlanType planType)
             throws Exception
     {
         User user = userService.findUserProfileByJwt(jwt);

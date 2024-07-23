@@ -1,11 +1,14 @@
-import {useForm} from "react-hook-form";
+import {FormProvider, useForm} from "react-hook-form";
 import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form.jsx";
 import {Input} from "@/components/ui/input.jsx";
-import {DialogClose} from "@/components/ui/dialog.jsx";
 import {Button} from "@/components/ui/button.jsx";
+import {useDispatch} from "react-redux";
+import {register} from "@/redux/Auth/Action.js";
 
 const SignUp = () =>
 {
+    const dispatch = useDispatch();
+
     const form = useForm({
         defaultValues:
         {
@@ -14,14 +17,18 @@ const SignUp = () =>
             fullName: ""
         }
     });
+
     const onSubmit = (data) =>
     {
-        console.log("singup data ", data);
+        dispatch(register(data));
+        console.log("signup data ", data);
     }
+
+
     return (
         <div className="space-y-5 ">
             <h1>Register</h1>
-            <Form {...form}>
+            <FormProvider {...form}>
                 <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
 
                     {/* FullName */}
@@ -79,7 +86,7 @@ const SignUp = () =>
                         SignUp
                     </Button>
                 </form>
-            </Form>
+            </FormProvider>
         </div>
     );
 };

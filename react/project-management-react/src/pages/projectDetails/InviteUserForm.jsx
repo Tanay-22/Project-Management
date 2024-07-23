@@ -3,10 +3,15 @@ import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/
 import {Input} from "@/components/ui/input.jsx";
 import {DialogClose} from "@/components/ui/dialog.jsx";
 import {Button} from "@/components/ui/button.jsx";
+import {useDispatch} from "react-redux";
+import {inviteToProject} from "@/redux/Project/Action.js";
+import {useParams} from "react-router-dom";
 
 
 const InviteUserForm = () =>
 {
+    const dispatch = useDispatch();
+    const { id } =useParams();
     const form = useForm({
         defaultValues:
             {
@@ -15,6 +20,7 @@ const InviteUserForm = () =>
     });
     const onSubmit = (data) =>
     {
+        dispatch(inviteToProject({ email: data.email, projectId: id }));
         console.log("invite email ", data);
     }
     return (

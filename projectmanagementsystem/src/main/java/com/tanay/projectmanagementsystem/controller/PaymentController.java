@@ -28,7 +28,7 @@ public class PaymentController
     @Autowired
     private UserService userService;
 
-    @PostMapping("?{planType}")
+    @PostMapping("/{planType}")
     public ResponseEntity<PaymentLinkResponse> createPaymentLink(@PathVariable PlanType planType,
                                                          @RequestHeader(JwtConstant.JWT_HEADER) String jwt)
             throws Exception
@@ -54,7 +54,7 @@ public class PaymentController
         notify.put("email", true);
         paymentLinkRequest.put("notify", notify);
 
-        paymentLinkRequest.put("callback_url", "http://localhost:5173/upgrade_plan/success?planType" + planType);
+        paymentLinkRequest.put("callback_url", "http://localhost:5173/upgrade_plan/success?planType=" + planType);
 
         PaymentLink payment = razorpay.paymentLink.create(paymentLinkRequest);
 

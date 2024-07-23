@@ -6,9 +6,13 @@ import {Button} from "@/components/ui/button.jsx";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.jsx";
 import {tags} from "@/pages/projectList/ProjectList.jsx";
 import {Cross1Icon} from "@radix-ui/react-icons";
+import {useDispatch} from "react-redux";
+import {createProject} from "@/redux/Project/Action.js";
 
 const CreateProjectForm = () =>
 {
+    const dispatch = useDispatch();
+
     const form = useForm({
         defaultValues:
         {
@@ -29,12 +33,14 @@ const CreateProjectForm = () =>
     }
     const onSubmit = (data) =>
     {
+        dispatch(createProject(data));
         console.log("created project data", data);
     }
     return (
         <div>
             <Form {...form}>
                 <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
+
                     {/*PROJECT NAME*/}
                     <FormField control={form.control}
                                name="name"

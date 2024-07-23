@@ -98,11 +98,14 @@ public class ProjectServiceImpl implements ProjectService
     {
         Project project = getProjectById(projectId);
         User user = userService.findUserById(userId);
-        if(!project.getTeam().contains(user))
+
+        for(User member: project.getTeam())
         {
-            project.getTeam().add(user);
-            project.getChat().getUsers().add(user);
+            if(member.getId().equals(userId))
+                return;
         }
+        project.getTeam().add(user);
+        project.getChat().getUsers().add(user);
         projectRepository.save(project);
     }
 
