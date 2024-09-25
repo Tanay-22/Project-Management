@@ -1,0 +1,16 @@
+server:
+    port: 8000
+
+spring:
+    application:
+        name: user-service
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/projectmanagement_user_service
+        username: root
+        password: Mterstegen#1
+        driver-class-name: com.mysql.cj.jdbc.Driver
