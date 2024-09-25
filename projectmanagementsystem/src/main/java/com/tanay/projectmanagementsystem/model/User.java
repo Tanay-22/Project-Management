@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data   // generates getter and setter
@@ -27,4 +28,19 @@ public class User
     private List<Issue> assignedIssues = new ArrayList<>();
 
     private int projectSize;
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        User user = (User) object;
+        return projectSize == user.projectSize && Objects.equals(id, user.id) && Objects.equals(fullName, user.fullName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(assignedIssues, user.assignedIssues);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, fullName, email, password, assignedIssues, projectSize);
+    }
 }
