@@ -3,7 +3,6 @@ package com.tanay.microservices.userservice.service;
 import com.tanay.microservices.userservice.config.JwtProvider;
 import com.tanay.microservices.userservice.model.User;
 import com.tanay.microservices.userservice.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,7 +10,6 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService
 {
-    @Autowired
     private UserRepository userRepository;
 
     @Override
