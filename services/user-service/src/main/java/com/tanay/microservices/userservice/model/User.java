@@ -28,7 +28,7 @@ public class User
     private String password;
 
     @ElementCollection
-    private List<Long> assignedIssues = new ArrayList<>();
+    private List<Long> assignedIssueIds = new ArrayList<>();
 
     private int projectSize;
 }

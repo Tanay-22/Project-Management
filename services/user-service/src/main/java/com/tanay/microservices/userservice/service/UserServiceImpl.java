@@ -1,8 +1,8 @@
-package com.tanay.projectmanagementsystem.service;
+package com.tanay.microservices.userservice.service;
 
-import com.tanay.projectmanagementsystem.config.JwtProvider;
-import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.repository.UserRepository;
+import com.tanay.microservices.userservice.config.JwtProvider;
+import com.tanay.microservices.userservice.model.User;
+import com.tanay.microservices.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

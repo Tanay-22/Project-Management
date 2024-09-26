@@ -2,10 +2,8 @@ package com.tanay.projectmanagementsystem.controller;
 
 import com.tanay.projectmanagementsystem.config.JwtConstant;
 import com.tanay.projectmanagementsystem.model.Comment;
-import com.tanay.projectmanagementsystem.model.Issue;
-import com.tanay.projectmanagementsystem.model.Message;
 import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.repository.UserService;
+import com.tanay.projectmanagementsystem.service.UserService;
 import com.tanay.projectmanagementsystem.request.CreateCommentRequest;
 import com.tanay.projectmanagementsystem.response.MessageResponse;
 import com.tanay.projectmanagementsystem.service.CommentService;

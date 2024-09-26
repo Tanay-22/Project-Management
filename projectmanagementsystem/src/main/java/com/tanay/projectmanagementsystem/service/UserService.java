@@ -1,4 +1,4 @@
-package com.tanay.projectmanagementsystem.repository;
+package com.tanay.projectmanagementsystem.service;
 
 import com.tanay.projectmanagementsystem.model.User;
 

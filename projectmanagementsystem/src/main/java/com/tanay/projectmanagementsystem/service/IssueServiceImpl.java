@@ -4,7 +4,6 @@ import com.tanay.projectmanagementsystem.model.Issue;
 import com.tanay.projectmanagementsystem.model.Project;
 import com.tanay.projectmanagementsystem.model.User;
 import com.tanay.projectmanagementsystem.repository.IssueRepository;
-import com.tanay.projectmanagementsystem.repository.UserService;
 import com.tanay.projectmanagementsystem.request.IssueRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

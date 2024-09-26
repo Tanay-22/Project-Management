@@ -2,9 +2,8 @@ package com.tanay.projectmanagementsystem.controller;
 
 import com.tanay.projectmanagementsystem.model.Chat;
 import com.tanay.projectmanagementsystem.model.Message;
-import com.tanay.projectmanagementsystem.model.Project;
 import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.repository.UserService;
+import com.tanay.projectmanagementsystem.service.UserService;
 import com.tanay.projectmanagementsystem.request.CreateMessageRequest;
 import com.tanay.projectmanagementsystem.service.MessageService;
 import com.tanay.projectmanagementsystem.service.ProjectService;

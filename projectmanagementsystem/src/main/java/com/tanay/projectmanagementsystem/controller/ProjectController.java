@@ -5,7 +5,7 @@ import com.tanay.projectmanagementsystem.model.Chat;
 import com.tanay.projectmanagementsystem.model.Invitation;
 import com.tanay.projectmanagementsystem.model.Project;
 import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.repository.UserService;
+import com.tanay.projectmanagementsystem.service.UserService;
 import com.tanay.projectmanagementsystem.request.InviteRequest;
 import com.tanay.projectmanagementsystem.response.MessageResponse;
 import com.tanay.projectmanagementsystem.service.InvitationService;

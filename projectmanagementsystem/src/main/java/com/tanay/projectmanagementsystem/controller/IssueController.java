@@ -4,7 +4,7 @@ import com.tanay.projectmanagementsystem.DTO.IssueDTO;
 import com.tanay.projectmanagementsystem.config.JwtConstant;
 import com.tanay.projectmanagementsystem.model.Issue;
 import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.repository.UserService;
+import com.tanay.projectmanagementsystem.service.UserService;
 import com.tanay.projectmanagementsystem.request.IssueRequest;
 import com.tanay.projectmanagementsystem.response.MessageResponse;
 import com.tanay.projectmanagementsystem.service.IssueService;

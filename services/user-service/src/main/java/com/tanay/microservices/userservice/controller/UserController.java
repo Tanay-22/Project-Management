@@ -1,8 +1,9 @@
-package com.tanay.projectmanagementsystem.controller;
+package com.tanay.microservices.userservice.controller;
 
-import com.tanay.projectmanagementsystem.config.JwtConstant;
-import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.service.UserService;
+
+import com.tanay.microservices.userservice.config.JwtConstant;
+import com.tanay.microservices.userservice.model.User;
+import com.tanay.microservices.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

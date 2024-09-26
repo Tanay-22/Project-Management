@@ -5,13 +5,12 @@ import com.razorpay.RazorpayClient;
 import com.tanay.projectmanagementsystem.config.JwtConstant;
 import com.tanay.projectmanagementsystem.model.PlanType;
 import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.repository.UserService;
+import com.tanay.projectmanagementsystem.service.UserService;
 import com.tanay.projectmanagementsystem.response.PaymentLinkResponse;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

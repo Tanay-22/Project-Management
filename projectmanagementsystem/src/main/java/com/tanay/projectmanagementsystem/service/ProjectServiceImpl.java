@@ -4,8 +4,6 @@ import com.tanay.projectmanagementsystem.model.Chat;
 import com.tanay.projectmanagementsystem.model.Project;
 import com.tanay.projectmanagementsystem.model.User;
 import com.tanay.projectmanagementsystem.repository.ProjectRepository;
-import com.tanay.projectmanagementsystem.repository.UserRepository;
-import com.tanay.projectmanagementsystem.repository.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

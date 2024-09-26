@@ -4,12 +4,10 @@ import com.tanay.projectmanagementsystem.model.PlanType;
 import com.tanay.projectmanagementsystem.model.Subscription;
 import com.tanay.projectmanagementsystem.model.User;
 import com.tanay.projectmanagementsystem.repository.SubscriptionRepository;
-import com.tanay.projectmanagementsystem.repository.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService
