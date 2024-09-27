@@ -128,7 +128,7 @@ public class ProjectController
             throws Exception
     {
         UserDTO user = userServiceClient.getUserProfile(jwt);
-        Invitation invitation = invitationService.acceptInvitation(token, user.getId());
+        Invitation invitation = invitationService.acceptInvitation(token, user);
         projectService.addUserToProject(invitation.getProjectId(), user);
 
         return new ResponseEntity<>(invitation, HttpStatus.ACCEPTED);

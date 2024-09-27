@@ -1,89 +1,111 @@
-# Project Management System - Microservices Architecture
+# Project Management Microservices
 
-This project follows a microservices-based architecture, where each service is responsible for handling specific functionality. The services are designed to be scalable, flexible, and maintainable. Below is the breakdown of the different microservices:
+This is a Project Management System that is divided into multiple microservices, each responsible for handling different aspects of the system. The project includes the following services: User Service, Project Service, Issue Service, Chat Service, and Subscription Service.
 
-## 1. User Service
-- **Entities**: `User`
-- **Controllers**: `AuthController`, `UserController`
-- **Repositories**: `UserRepository`
-- **Services**: `UserService`, `UserServiceImpl`, `CustomUserDetailsImpl`
-- **Responsibilities**:
-    - User registration and authentication (JWT-based)
-    - User profile management
+## Microservices Overview
 
-## 2. Project Service
-- **Entities**: `Project`
-- **Controllers**: `ProjectController`
-- **Repositories**: `ProjectRepository`
-- **Services**: `ProjectService`, `ProjectServiceImpl`
-- **Responsibilities**:
-    - Project creation and updates
-    - Project-related data retrieval
+### 1. **User Service**
+**Responsibilities:**  
+This service is responsible for managing user data and handling user authentication.
 
-## 3. Issue Tracking Service
-- **Entities**: `Issue`, `Comment`
-- **Controllers**: `IssueController`, `CommentController`
-- **Repositories**: `IssueRepository`, `CommentRepository`
-- **Services**: `IssueService`, `IssueServiceImpl`, `CommentService`, `CommentServiceImpl`
-- **Responsibilities**:
-    - Issue tracking
-    - Managing comments on issues
-    - Issue status management
+**Models:**
+- `User`
 
-## 4. Chat Service
-- **Entities**: `Chat`, `Message`
-- **Controllers**: `MessageController`
-- **Repositories**: `ChatRepository`, `MessageRepository`
-- **Services**: `ChatService`, `ChatServiceImpl`, `MessageService`, `MessageServiceImpl`
-- **Responsibilities**:
-    - Real-time messaging
-    - Communication features between users within a project
+**Endpoints:**
+- `POST /users` - Create a new user.
+- `GET /users/{id}` - Get details of a specific user.
+- `PUT /users/{id}` - Update user details.
+- `DELETE /users/{id}` - Delete a user.
 
-## 5. Subscription and Payment Service
-- **Entities**: `Subscription`, `PlanType`
-- **Controllers**: `SubscriptionController`, `PaymentController`
-- **Repositories**: `SubscriptionRepository`
-- **Services**: `SubscriptionService`, `SubscriptionServiceImpl`, `PaymentService`, `PaymentServiceImpl`
-- **Responsibilities**:
-    - User subscription management
-    - Payment plan management
-    - Payment processing
+**Communication:**
+- Other services call this service to retrieve or update user information.
+- Manages user roles and authentication.
 
-## 6. Invitation Service
-- **Entities**: `Invitation`
-- **Controllers**: `InvitationController`
-- **Repositories**: `InvitationRepository`
-- **Services**: `InvitationService`, `InvitationServiceImpl`
-- **Responsibilities**:
-    - User invitations to projects
-    - Invitation management
-    - Notifications for invitations
+### 2. **Project Service**
+**Responsibilities:**  
+This service manages projects and project-related data.
 
-## 7. Notification/Email Service
-- **Entities**: None specific, but may include templates or history
-- **Repositories**: None (or `NotificationRepository` if needed)
-- **Services**: `EmailService`, `EmailServiceImpl`
-- **Responsibilities**:
-    - Managing notifications
-    - Sending emails for invitations, project updates, and reminders
+**Models:**
+- `Project`
+- `Invitation`
 
-## Steps to Implement:
+**Endpoints:**
+- `POST /projects` - Create a new project.
+- `GET /projects/{id}` - Get project details.
+- `PUT /projects/{id}` - Update project details.
+- `DELETE /projects/{id}` - Delete a project.
+- `POST /projects/{id}/invitations` - Send project invitation to a user.
 
-### Database Segmentation:
-Each microservice can have its own database or schema. For example, the User Service can have a `user_db`, and the Project Service can have a `project_db`. Use separate databases or a shared one depending on your requirements and ensure loose coupling.
+**Communication:**
+- Interacts with the User service to retrieve project owners and team members.
+- Interacts with the Issue service to manage issues related to projects.
 
-### Communication Between Microservices:
-- Use REST APIs or messaging queues (e.g., RabbitMQ, Kafka) for asynchronous communication between services.
-- Utilize an API Gateway to route requests, handle load balancing, authentication, and logging.
+### 3. **Issue Service**
+**Responsibilities:**  
+This service handles issues related to projects, including comments on issues.
 
-### Security:
-- Centralize authentication through the User Service and use JWTs for secure communication between services.
-- The API Gateway can also handle token validation.
+**Models:**
+- `Issue`
+- `Comment`
 
-### Deployment:
-- Each microservice should be independently deployable, allowing you to scale specific services based on load. For example, the Chat Service may require more instances to handle high message traffic.
+**Endpoints:**
+- `POST /issues` - Create a new issue.
+- `GET /issues/{id}` - Get issue details.
+- `PUT /issues/{id}` - Update issue details.
+- `DELETE /issues/{id}` - Delete an issue.
+- `POST /issues/{id}/comments` - Add a comment to an issue.
 
-### Monitoring and Logging:
-- Implement distributed logging (e.g., ELK Stack) and monitoring tools (e.g., Prometheus, Grafana) to track the behavior of each microservice and maintain overall system health.
+**Communication:**
+- Interacts with the Project service to link issues to projects.
+- Communicates with the User service to manage issue assignees and comment authors.
 
-By dividing the services this way, the system will be more scalable, flexible, and maintainable. Each service can be developed, deployed, and scaled independently based on its own demands.
+### 4. **Chat Service**
+**Responsibilities:**  
+This service manages project-related chats and messages.
+
+**Models:**
+- `Chat`
+- `Message`
+
+**Endpoints:**
+- `POST /chats` - Create a chat for a project.
+- `GET /chats/{id}` - Get chat details.
+- `POST /chats/{id}/messages` - Send a message in a chat.
+- `GET /chats/{id}/messages` - Get all messages for a specific chat.
+
+**Communication:**
+- Interacts with the Project service to link chats to projects.
+- Communicates with the User service to identify users participating in the chat.
+
+### 5. **Subscription Service**
+**Responsibilities:**  
+This service handles user subscriptions for different plans (Free, Monthly, Annually).
+
+**Models:**
+- `Subscription`
+- `PlanType`
+
+**Endpoints:**
+- `POST /subscriptions` - Create a subscription for a user.
+- `GET /subscriptions/{userId}` - Get subscription details for a user.
+- `PUT /subscriptions/{id}` - Update subscription details.
+- `DELETE /subscriptions/{id}` - Cancel a subscription.
+
+**Communication:**
+- Communicates with the User service to manage subscriptions for users.
+
+---
+
+## Technologies Used:
+- **Backend:** Spring Boot, Java
+- **Database:** MySQL
+- **Messaging:** Feign for inter-service communication
+- **Authentication:** JWT-based authentication
+- **Frontend:** React (optional)
+- **API Documentation:** Swagger (optional)
+
+## How to Run
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
