@@ -1,11 +1,10 @@
-package com.tanay.projectmanagementsystem.service;
+package com.tanay.microservices.issueservice.service;
 
-import com.tanay.projectmanagementsystem.model.Comment;
-import com.tanay.projectmanagementsystem.model.Issue;
-import com.tanay.projectmanagementsystem.model.User;
-import com.tanay.projectmanagementsystem.repository.CommentRepository;
-import com.tanay.projectmanagementsystem.repository.IssueRepository;
-import com.tanay.projectmanagementsystem.repository.UserRepository;
+import com.tanay.microservices.issueservice.dto.UserDTO;
+import com.tanay.microservices.issueservice.model.Comment;
+import com.tanay.microservices.issueservice.model.Issue;
+import com.tanay.microservices.issueservice.repository.CommentRepository;
+import com.tanay.microservices.issueservice.repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,31 +16,28 @@ import java.util.Optional;
 @Service
 public class CommentServiceImpl implements CommentService
 {
-    @Autowired
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
+    private final IssueRepository issueRepository;
 
     @Autowired
-    private IssueRepository issueRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    public CommentServiceImpl(CommentRepository commentRepository, IssueRepository issueRepository)
+    {
+        this.commentRepository = commentRepository;
+        this.issueRepository = issueRepository;
+    }
 
     @Override
-    public Comment createComment(Long issueId, Long userId, String comment) throws Exception
+    public Comment createComment(Long issueId, UserDTO user, String comment) throws Exception
     {
         Optional<Issue> issueOptional = issueRepository.findById(issueId);
-        Optional<User> userOptional = userRepository.findById(userId);
 
         if(issueOptional.isEmpty())
             throw new Exception("ISSUE NOT FOUND WITH ID - " + issueId);
-        if(userOptional.isEmpty())
-            throw new Exception("USER NOT FOUND WITH ID - " + userId);
 
         Issue issue = issueOptional.get();
-        User user = userOptional.get();
 
         Comment newComment = new Comment();
-        newComment.setUser(user);
+        newComment.setUserId(user.getId());
         newComment.setIssue(issue);
         newComment.setCreatedAt(LocalDateTime.now());
         newComment.setContent(comment);
@@ -53,20 +49,16 @@ public class CommentServiceImpl implements CommentService
     }
 
     @Override
-    public void deleteComment(Long commentId, Long userId) throws Exception
+    public void deleteComment(Long commentId, UserDTO user) throws Exception
     {
-        Optional<User> userOptional = userRepository.findById(userId);
         Optional<Comment> commentOptional = commentRepository.findById(commentId);
 
-        if(userOptional.isEmpty())
-            throw new Exception("USER NOT FOUND WITH ID - " + userId);
         if(commentOptional.isEmpty())
             throw new Exception("COMMENT NOT FOUND WITH ID - " + commentId);
 
         Comment comment = commentOptional.get();
-        User user = userOptional.get();
 
-        if(comment.getUser().equals(user))
+        if(comment.getUserId().equals(user.getId()))
             commentRepository.delete(comment);
         else
             throw new Exception("USER DOES NOT HAVE PERMISSION TO DELETE THIS COMMENT");

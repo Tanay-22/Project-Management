@@ -1,7 +1,6 @@
-package com.tanay.projectmanagementsystem.repository;
+package com.tanay.microservices.issueservice.repository;
 
-
-import com.tanay.projectmanagementsystem.model.Comment;
+import com.tanay.microservices.issueservice.model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
