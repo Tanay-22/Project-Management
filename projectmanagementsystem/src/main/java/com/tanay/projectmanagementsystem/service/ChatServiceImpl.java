@@ -2,6 +2,7 @@ package com.tanay.projectmanagementsystem.service;
 
 import com.tanay.projectmanagementsystem.model.Chat;
 import com.tanay.projectmanagementsystem.repository.ChatRepository;
+import com.tanay.projectmanagementsystem.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
