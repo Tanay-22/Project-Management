@@ -24,7 +24,9 @@ public class IssueController
     private final ProjectServiceClient projectServiceClient;
 
     @Autowired
-    public IssueController(IssueService issueService, UserServiceClient userServiceClient, ProjectServiceClient projectServiceClient)
+    public IssueController(IssueService issueService,
+                           UserServiceClient userServiceClient,
+                           ProjectServiceClient projectServiceClient)
     {
         this.issueService = issueService;
         this.userServiceClient = userServiceClient;
@@ -51,18 +53,7 @@ public class IssueController
     {
         UserDTO tokenUser = userServiceClient.getUserProfile(token);
         ProjectDTO project = projectServiceClient.getProjectById(req.getProjectId());
-        Issue createdIssue = issueService.createIssue(req, tokenUser, project);
-        Issue issue = new Issue();
-
-        issue.setDescription(createdIssue.getDescription());
-        issue.setDueDate(createdIssue.getDueDate());
-        issue.setId(createdIssue.getId());
-        issue.setPriority(createdIssue.getPriority());
-        issue.setProjectId(createdIssue.getProjectId());
-        issue.setStatus(createdIssue.getStatus());
-        issue.setTitle(createdIssue.getTitle());
-        issue.setTags(createdIssue.getTags());
-        issue.setAssigneeId(createdIssue.getAssigneeId());
+        Issue issue = issueService.createIssue(req, tokenUser, project);
 
         return ResponseEntity.ok(issue);
     }

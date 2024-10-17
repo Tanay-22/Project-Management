@@ -1,9 +1,10 @@
 package com.tanay.microservices.projectservice.service;
 
+import com.tanay.microservices.projectservice.dto.ChatDTO;
 import com.tanay.microservices.projectservice.dto.UserDTO;
 import com.tanay.microservices.projectservice.model.Project;
 import com.tanay.microservices.projectservice.repository.ProjectRepository;
-import org.apache.catalina.User;
+import com.tanay.microservices.projectservice.request.CreateProjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,34 +16,33 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService
 {
     private final ProjectRepository projectRepository;
+    private final ChatServiceClient chatServiceClient;
 
     @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository)
+    public ProjectServiceImpl(ProjectRepository projectRepository, ChatServiceClient chatServiceClient)
     {
         this.projectRepository = projectRepository;
+        this.chatServiceClient = chatServiceClient;
     }
 
     @Override
-    public Project createProject(Project project, UserDTO user) throws Exception
+    public Project createProject(CreateProjectRequest req, UserDTO user) throws Exception
     {
-        Project createdProject = new Project();
+        Project project = new Project();
+        // can use @Builder here
+        project.setOwnerId(user.getId());
+        project.setTags(req.getTags());
+        project.setName(req.getName());
+        project.setCategory(req.getCategory());
+        project.setDescription(req.getDescription());
+        project.getTeam().add(user.getId());
+        Project savedProject = projectRepository.save(project);
+        // project need to be saved in order to get id
 
-        createdProject.setOwnerId(user.getId());
-        createdProject.setTags(project.getTags());
-        createdProject.setName(project.getName());
-        createdProject.setCategory(project.getCategory());
-        createdProject.setDescription(project.getDescription());
-        createdProject.getTeam().add(user.getId());
+        ChatDTO chat = chatServiceClient.createChat(savedProject.getId());
+        project.setChatId(chat.getId());
 
-        Project savedProject = projectRepository.save(createdProject);
-
-//        Chat chat = new Chat();
-//        chat.setProject(savedProject);
-//
-//        Chat projectChat = chatService.createChat(chat);
-//        savedProject.setChat(projectChat);
-
-        return savedProject;
+        return projectRepository.save(savedProject);
     }
 
     @Override

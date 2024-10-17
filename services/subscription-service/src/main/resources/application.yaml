@@ -1,0 +1,27 @@
+server:
+    port: 8400
+
+spring:
+    application:
+        name: subscription-service
+
+    jpa:
+        hibernate:
+            ddl-auto: update
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/projectmanagement_subscription_service
+        username: root
+        password: MterStegen#1
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8700/eureka
+
+
+razorpay:
+    api:
+        key: rzp_test_qX9q2nnfdZg8tq
+        secret: T8USw9KIxk8XVWnPFRuSs5Xb

@@ -22,7 +22,7 @@ const ProjectList = () =>
     const handleFilerCategory = (value) =>
     {
         if(value === "all")
-            dispatch(fetchProjects({}));
+            dispatch(fetchProjects({ category: null }));
         else
             dispatch(fetchProjects({ category : value }));
         console.log("category ->", value);
@@ -30,10 +30,7 @@ const ProjectList = () =>
 
     const handleFilerTags = (value) =>
     {
-        if(value === "all")
-            dispatch(fetchProjects({}));
-        else
-            dispatch(fetchProjects({ tag : value }));
+        dispatch(fetchProjects({ tag : value }));
         console.log("tags ->", value);
     };
 
@@ -42,7 +39,6 @@ const ProjectList = () =>
         setKeyword(e.target.value);
         dispatch(searchProjects(e.target.value));
     };
-
 
     console.log(projects);
 
@@ -54,10 +50,10 @@ const ProjectList = () =>
                         <div className="flex justify-between lg:w-[20rem]">
                             <p className="text-xl tracking-wider">Filters</p>
                             <Button variant="ghost" size="icon">
-                                <MixerHorizontalIcon />
+                                <MixerHorizontalIcon/>
                             </Button>
                         </div>
-                        <CardContent className="mt-5" >
+                        <CardContent className="mt-5">
                             <ScrollArea className="space-y-7 h-[70vh]">
                                 <div>
                                     <h1 className="pb-3 text-gray-400 border-b">Category</h1>
@@ -73,7 +69,7 @@ const ProjectList = () =>
                                             </div>
 
                                             <div className="flex items-center gap-2">
-                                                <RadioGroupItem value="fullStack" id="r2"/>
+                                                <RadioGroupItem value="fullstack" id="r2"/>
                                                 <Label htmlFor="r2">Full Stack</Label>
                                             </div>
 
@@ -98,11 +94,11 @@ const ProjectList = () =>
                                             defaultValue="all"
                                             onValueChange={(value) => handleFilerTags(value)}
                                         >
-                                            {tags.map((item)=>
+                                            {tags.map((item) =>
                                                 <div key={item} className="flex items-center gap-2">
-                                                <RadioGroupItem value={item} id={`r1-${item}`}/>
-                                                <Label htmlFor={`r1-${item}`}>{item}</Label>
-                                            </div>)}
+                                                    <RadioGroupItem value={item} id={`r1-${item}`}/>
+                                                    <Label htmlFor={`r1-${item}`}>{item}</Label>
+                                                </div>)}
                                         </RadioGroup>
                                     </div>
                                 </div>
@@ -117,7 +113,7 @@ const ProjectList = () =>
                             <Input
                                 placeholder="search project"
                                 className="40% px-9"
-                                onChange = {handleSearchChange}
+                                onChange={handleSearchChange}
                             />
                             <MagnifyingGlassIcon className="absolute top-3 left-4"/>
                         </div>

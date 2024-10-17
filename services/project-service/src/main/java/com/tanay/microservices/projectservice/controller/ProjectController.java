@@ -3,6 +3,7 @@ package com.tanay.microservices.projectservice.controller;
 import com.tanay.microservices.projectservice.dto.UserDTO;
 import com.tanay.microservices.projectservice.model.Invitation;
 import com.tanay.microservices.projectservice.model.Project;
+import com.tanay.microservices.projectservice.request.CreateProjectRequest;
 import com.tanay.microservices.projectservice.request.InviteRequest;
 import com.tanay.microservices.projectservice.response.MessageResponse;
 import com.tanay.microservices.projectservice.service.InvitationService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.tanay.microservices.projectservice.config.JwtConstant.JWT_HEADER;
+
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController
@@ -23,10 +26,10 @@ public class ProjectController
     private final UserServiceClient userServiceClient;
     private final InvitationService invitationService;
 
-    private final static String JWT_HEADER = "Authorization";
 
     @Autowired
-    public ProjectController(ProjectService projectService, UserServiceClient userServiceClient, InvitationService invitationService)
+    public ProjectController(ProjectService projectService, UserServiceClient userServiceClient,
+                             InvitationService invitationService)
     {
         this.projectService = projectService;
         this.userServiceClient = userServiceClient;
@@ -55,12 +58,12 @@ public class ProjectController
     }
 
     @PostMapping
-    public ResponseEntity<Project> createProject(@RequestBody Project project,
+    public ResponseEntity<Project> createProject(@RequestBody CreateProjectRequest req,
                                                  @RequestHeader(JWT_HEADER) String jwt)
             throws Exception
     {
         UserDTO user = userServiceClient.getUserProfile(jwt);
-        Project createdProject = projectService.createProject(project, user);
+        Project createdProject = projectService.createProject(req, user);
 
         return new ResponseEntity<>(createdProject, HttpStatus.OK);
 
@@ -76,6 +79,7 @@ public class ProjectController
         return new ResponseEntity<>(updatedProject, HttpStatus.OK);
     }
 
+    // upon deleting the project, its issues, chat, comments etc should get deleted too
     @DeleteMapping("/{projectId}")
     public ResponseEntity<MessageResponse> deleteProject(@PathVariable Long projectId,
                                                          @RequestHeader(JWT_HEADER) String jwt)

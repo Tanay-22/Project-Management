@@ -2,12 +2,13 @@ package com.tanay.microservices.projectservice.service;
 
 import com.tanay.microservices.projectservice.dto.UserDTO;
 import com.tanay.microservices.projectservice.model.Project;
+import com.tanay.microservices.projectservice.request.CreateProjectRequest;
 
 import java.util.List;
 
 public interface ProjectService
 {
-    Project createProject(Project project, UserDTO user) throws Exception;
+    Project createProject(CreateProjectRequest req, UserDTO user) throws Exception;
 
     List<Project> getProjectByTeam(UserDTO user, String category, String tag) throws Exception;
 

@@ -8,6 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="issue-service" />
+        <module name="subscription-service" />
+        <module name="api-gateway" />
+        <module name="chat-service" />
         <module name="user-service" />
         <module name="project-service" />
         <module name="naming-server" />
@@ -16,9 +19,12 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="-parameters" />
+      <module name="chat-service" options="-parameters" />
       <module name="issue-service" options="-parameters" />
       <module name="naming-server" options="-parameters" />
       <module name="project-service" options="-parameters" />
+      <module name="subscription-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>
