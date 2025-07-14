@@ -1,6 +1,6 @@
 package com.tanay.microservices.subscriptionservice.service;
 
-import com.tanay.microservices.subscriptionservice.SubscriptionRepository;
+import com.tanay.microservices.subscriptionservice.repository.SubscriptionRepository;
 import com.tanay.microservices.subscriptionservice.model.PlanType;
 import com.tanay.microservices.subscriptionservice.model.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;

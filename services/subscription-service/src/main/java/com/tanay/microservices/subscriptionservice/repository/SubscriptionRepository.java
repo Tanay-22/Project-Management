@@ -1,4 +1,4 @@
-package com.tanay.microservices.subscriptionservice;
+package com.tanay.microservices.subscriptionservice.repository;
 
 import com.tanay.microservices.subscriptionservice.model.Subscription;
 import org.springframework.data.jpa.repository.JpaRepository;

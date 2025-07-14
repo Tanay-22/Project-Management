@@ -1,13 +1,14 @@
 package com.tanay.microservices.userservice.controller;
 
 import com.tanay.microservices.userservice.config.JwtProvider;
+import com.tanay.microservices.userservice.dto.SubscriptionDTO;
 import com.tanay.microservices.userservice.model.User;
 import com.tanay.microservices.userservice.repository.UserRepository;
 import com.tanay.microservices.userservice.request.LoginRequest;
-import com.tanay.microservices.userservice.request.SubscriptionRequest;
 import com.tanay.microservices.userservice.response.AuthResponse;
 import com.tanay.microservices.userservice.request.SignupRequest;
 import com.tanay.microservices.userservice.service.CustomUserDetailsImpl;
+import com.tanay.microservices.userservice.service.SubscriptionServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,23 +22,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController
 {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsImpl customUserDetails;
+    private final SubscriptionServiceClient subscriptionServiceClient;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private CustomUserDetailsImpl customUserDetails;
-
-    @Autowired
-    private RestTemplate restTemplate;
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                          CustomUserDetailsImpl customUserDetails,
+                          SubscriptionServiceClient subscriptionServiceClient)
+    {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.customUserDetails = customUserDetails;
+        this.subscriptionServiceClient = subscriptionServiceClient;
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody SignupRequest req) throws Exception
@@ -53,8 +57,7 @@ public class AuthController
         createdUser.setFullName(req.getFullName());
 
         User savedUser = userRepository.save(createdUser);
-
-//        createSubscription(savedUser);
+        SubscriptionDTO subscription =  subscriptionServiceClient.createUserSubscription(savedUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -71,10 +74,8 @@ public class AuthController
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> signin(@RequestBody LoginRequest loginRequest)
     {
-        String username = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
 
-        Authentication authentication = authenticate(username, password);
+        Authentication authentication = authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = JwtProvider.generateToken(authentication);
@@ -88,7 +89,7 @@ public class AuthController
 
     private Authentication authenticate(String username, String password)
     {
-        UserDetails userDetails = customUserDetails.loadUserByUsername(username);
+        UserDetails userDetails = customUserDetails. loadUserByUsername(username);
         if(userDetails == null)
             throw new BadCredentialsException("Invalid Username");
 
@@ -96,19 +97,5 @@ public class AuthController
             throw new BadCredentialsException("Invalid Password");
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    }
-
-    private void createSubscription(User user) throws Exception
-    {
-        SubscriptionRequest req = new SubscriptionRequest();
-        req.setUserId(user.getId());
-
-        String url = "<subscription-service>";
-        ResponseEntity<String> res = restTemplate.postForEntity(url, req, String.class);
-
-        if(res.getStatusCode() != HttpStatus.CREATED)
-        {
-            throw new Exception("Subscription not created");
-        }
     }
 }

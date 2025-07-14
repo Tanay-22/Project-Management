@@ -21,7 +21,6 @@ import java.util.List;
 
 public class JwtTokenValidator extends OncePerRequestFilter
 {
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException

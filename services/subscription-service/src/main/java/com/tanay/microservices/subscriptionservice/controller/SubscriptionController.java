@@ -26,6 +26,12 @@ public class SubscriptionController
         this.userServiceClient = userServiceClient;
     }
 
+    @GetMapping("/create")
+    public Subscription createUserSubscription(@RequestBody UserDTO user)
+    {
+        return subscriptionService.createSubscription(user.getId());
+    }
+
     @GetMapping("/user")
     public ResponseEntity<Subscription> getUserSubscription(@RequestHeader(JWT_HEADER) String jwt)
     {
